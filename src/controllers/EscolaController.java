@@ -22,6 +22,7 @@ public class EscolaController {
     }
 
     public static void crearEscola(Escola escola) {
+        // Inserir una nova Escola a la base de dades
         String sql = "INSERT INTO Escoles (nom, lloc, aproximacio, num_vies, popularitat, restriccions) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             int idGenerat = models.ModelController.ejecutarActualizacionConRetornId(sql, escola.getNom(), escola.getLloc(),
@@ -52,6 +53,7 @@ public class EscolaController {
     }
 
     public static void modificarEscola(Escola escola) {
+        // Actualitzar una Escola existent a la base de dades
         String sql = "UPDATE Escoles SET nom = ?, lloc = ?, aproximacio = ?, num_vies = ?, popularitat = ?, restriccions = ? WHERE id = ?";
         try {
             models.ModelController.ejecutarActualizacion(sql, escola.getNom(), escola.getLloc(), escola.getAproximacio(),
@@ -76,6 +78,7 @@ public class EscolaController {
 
     // Llistar totes les Escoles
     public static void llistarTotesEscolesController() {
+        // Obtenir totes les Escoles de la base de dades
         String sql = "SELECT * FROM Escoles";
         List<Escola> escoles = new ArrayList<>();
         try {
@@ -100,6 +103,7 @@ public class EscolaController {
     }
 
     public static void eliminarEscola(int id) {
+        // Eliminar una Escola de la base de dades
         String sql = "DELETE FROM Escoles WHERE id = ?";
         try {
             models.ModelController.ejecutarActualizacion(sql, id);
@@ -111,6 +115,7 @@ public class EscolaController {
 
     // Obtenir una Escola per ID
     private static Escola obtenerEscolaPorId(int id) {
+        // Consultar una Escola a la base de dades pel seu ID
         String sql = "SELECT * FROM Escoles WHERE id = ?";
         try {
             ResultSet rs = models.ModelController.ejecutarConsulta(sql, id);
@@ -125,6 +130,7 @@ public class EscolaController {
 
     // Mapar un ResultSet a un objecte Escola
     private static Escola mapearEscola(ResultSet rs) throws SQLException {
+        // Crear un objecte Escola a partir del ResultSet
         Escola escola = new Escola();
         escola.setId(rs.getInt("id"));
         escola.setNom(rs.getString("nom"));

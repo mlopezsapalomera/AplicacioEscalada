@@ -14,12 +14,14 @@ public class LlargController {
 
     // Crear un nou Llarg
     public static void crearLlargController(int viaId) {
+        // Obtenir les dades del nou llarg des de la vista
         Llarg llarg = LlargView.mostrarCrearLlarg();
-        llarg.setViaId(viaId);
+        llarg.setViaId(viaId); // Assignar l'ID de la via al llarg
         crearLlarg(llarg);
     }
 
     public static void crearLlarg(Llarg llarg) {
+        // Inserir un nou llarg a la base de dades
         String sql = "INSERT INTO Llargs (via_id, numero_llarg, llargada, dificultat, orientacio, estat, data_no_apta_until, ancoratge) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             ModelController.ejecutarActualizacion(sql, llarg.getViaId(), llarg.getNumeroLlarg(), llarg.getLlargada(),
@@ -33,21 +35,24 @@ public class LlargController {
 
     // Llistar tots els Llargs d'una Via
     public static void llistarLlargsPerVia(int viaId) {
+        // Obtenir tots els llargs associats a una via des de la base de dades
         String sql = "SELECT * FROM Llargs WHERE via_id = ?";
         List<Llarg> llargs = new ArrayList<>();
         try {
             ResultSet rs = ModelController.ejecutarConsulta(sql, viaId);
             while (rs.next()) {
-                llargs.add(mapearLlarg(rs));
+                llargs.add(mapearLlarg(rs)); // Mapar cada resultat a un objecte Llarg
             }
+            // Mostrar els llargs a la vista
             LlargView.mostrarListarTodosLosLlargs(llargs);
         } catch (SQLException e) {
             ModelController.manejarExcepcion(e);
         }
     }
 
-    // Método para eliminar un llarg por ID
+    // Eliminar un llarg per ID
     public static void eliminarLlarg(int llargId) {
+        // Eliminar un llarg de la base de dades
         String sql = "DELETE FROM Llargs WHERE id = ?";
         try {
             ModelController.ejecutarActualizacion(sql, llargId);
@@ -59,6 +64,7 @@ public class LlargController {
 
     // Mapar un ResultSet a un objecte Llarg
     private static Llarg mapearLlarg(ResultSet rs) throws SQLException {
+        // Crear un objecte Llarg a partir del ResultSet
         Llarg llarg = new Llarg();
         llarg.setId(rs.getInt("id"));
         llarg.setViaId(rs.getInt("via_id"));
@@ -72,22 +78,24 @@ public class LlargController {
         return llarg;
     }
 
+    // Modificar un llarg existent
     public static void modificarLlargController(int llargId) {
-        // Obtener el llarg actual desde la base de datos
+        // Obtenir el llarg actual des de la base de dades
         Llarg llarg = obtenerLlargPorId(llargId);
         if (llarg == null) {
             System.out.println("Llarg no trobat.");
             return;
         }
 
-        // Solicitar los nuevos datos desde la vista
+        // Sol·licitar les noves dades des de la vista
         Llarg llargModificat = LlargView.mostrarModificarLlarg(llarg);
 
-        // Actualizar el llarg en la base de datos
+        // Actualitzar el llarg a la base de dades
         modificarLlarg(llargModificat);
     }
 
     public static void modificarLlarg(Llarg llarg) {
+        // Actualitzar un llarg existent a la base de dades
         String sql = "UPDATE Llargs SET numero_llarg = ?, llargada = ?, dificultat = ?, orientacio = ?, estat = ?, ancoratge = ? WHERE id = ?";
         try {
             ModelController.ejecutarActualizacion(sql, llarg.getNumeroLlarg(), llarg.getLlargada(), llarg.getDificultat(),
@@ -98,7 +106,9 @@ public class LlargController {
         }
     }
 
+    // Obtenir un llarg per ID
     private static Llarg obtenerLlargPorId(int llargId) {
+        // Consultar un llarg a la base de dades pel seu ID
         String sql = "SELECT * FROM Llargs WHERE id = ?";
         try {
             ResultSet rs = ModelController.ejecutarConsulta(sql, llargId);

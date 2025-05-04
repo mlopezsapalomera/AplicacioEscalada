@@ -14,10 +14,10 @@ public class SectorController {
 
     // Crear un nou Sector
     public static void crearSectorController() {
-        // Solicitar los datos del sector desde la vista
+        // Sol·licitar les dades del sector des de la vista
         Sector sector = SectorView.mostrarCrearSector();
 
-        // Validar que el ID de la escuela existe
+        // Validar que l'ID de l'escola existeix
         if (!escolaExiste(sector.getEscolaId())) {
             System.out.println("Error: L'ID de l'Escola proporcionat no existeix.");
             return;
@@ -27,6 +27,7 @@ public class SectorController {
         crearSector(sector);
     }
 
+    // Comprovar si una escola existeix
     private static boolean escolaExiste(int escolaId) {
         String sql = "SELECT COUNT(*) FROM Escoles WHERE id = ?";
         try {
@@ -40,6 +41,7 @@ public class SectorController {
         return false;
     }
 
+    // Crear un sector a la base de dades
     public static void crearSector(Sector sector) {
         String sql = "INSERT INTO Sectors (nom, escola_id, num_vies, coordenades, aproximacio, popularitat, restriccions) " +
                      "VALUES (?, ?, ?, ST_GeomFromText(?), ?, ?, ?)";
@@ -72,6 +74,7 @@ public class SectorController {
         modificarSector(sectorModificat);
     }
 
+    // Actualitzar un sector existent a la base de dades
     public static void modificarSector(Sector sector) {
         String sql = "UPDATE Sectors SET nom = ?, escola_id = ?, num_vies = ? WHERE id = ?";
         try {
@@ -120,6 +123,7 @@ public class SectorController {
         eliminarSector(id);
     }
 
+    // Eliminar un sector de la base de dades
     public static void eliminarSector(int id) {
         String sql = "DELETE FROM Sectors WHERE id = ?";
         try {

@@ -13,40 +13,40 @@ import models.ModelController;
 public class EscaladorView {
     private static final Scanner scanner = new Scanner(System.in);
 
-    // Mostrar un mensaje para crear un escalador
+    // Mostrar un missatge per crear un escalador
     public static Escalador mostrarCrearEscalador() {
         Escalador escalador = new Escalador();
         System.out.println("=== Crear Escalador ===");
-        System.out.print("Nombre: ");
+        System.out.print("Nom: ");
         escalador.setNom(scanner.nextLine());
-        System.out.print("Alias: ");
+        System.out.print("Àlies: ");
         escalador.setAlias(scanner.nextLine());
-        System.out.print("Edad: ");
+        System.out.print("Edat: ");
         escalador.setEdat(scanner.nextInt());
-        scanner.nextLine(); // Consumir salto de línea
+        scanner.nextLine(); // Consumir el salt de línia
 
-        // Obtener y mostrar los niveles disponibles
-        List<String> niveles = obtenerNivelesDisponibles();
-        if (!niveles.isEmpty()) {
-            System.out.println("Selecciona el nivel máximo:");
-            for (int i = 0; i < niveles.size(); i++) {
-                System.out.println((i + 1) + ". " + niveles.get(i));
+        // Obtenir i mostrar els nivells disponibles
+        List<String> nivells = obtenirNivellsDisponibles();
+        if (!nivells.isEmpty()) {
+            System.out.println("Selecciona el nivell màxim:");
+            for (int i = 0; i < nivells.size(); i++) {
+                System.out.println((i + 1) + ". " + nivells.get(i));
             }
-            int opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpiar el buffer
-            if (opcion > 0 && opcion <= niveles.size()) {
-                escalador.setNivellMax(niveles.get(opcion - 1));
+            int opcio = scanner.nextInt();
+            scanner.nextLine(); // Netejar el buffer
+            if (opcio > 0 && opcio <= nivells.size()) {
+                escalador.setNivellMax(nivells.get(opcio - 1));
             } else {
-                System.out.println("Opción no válida. Nivel no asignado.");
+                System.out.println("Opció no vàlida. Nivell no assignat.");
             }
         } else {
-            System.out.println("No hay niveles disponibles.");
+            System.out.println("No hi ha nivells disponibles.");
         }
 
-        System.out.print("ID de Vía Máxima: ");
+        System.out.print("ID de la Via Màxima: ");
         escalador.setViaMaxId(scanner.nextInt());
         scanner.nextLine();
-        System.out.print("Estilo Preferido (esportiva, clàssica, gel): ");
+        System.out.print("Estil Preferit (esportiva, clàssica, gel): ");
         escalador.setEstilPreferit(scanner.nextLine());
         System.out.print("Historial: ");
         escalador.setHistorial(scanner.nextLine());
@@ -55,95 +55,96 @@ public class EscaladorView {
         return escalador;
     }
 
-    private static List<String> obtenerNivelesDisponibles() {
-        List<String> niveles = new ArrayList<>();
+    // Obtenir els nivells disponibles des de la base de dades
+    private static List<String> obtenirNivellsDisponibles() {
+        List<String> nivells = new ArrayList<>();
         String sql = "SHOW COLUMNS FROM Escaladors LIKE 'nivell_max'";
         try {
             ResultSet rs = ModelController.ejecutarConsulta(sql);
             if (rs.next()) {
-                String enumValues = rs.getString("Type"); // Obtiene el tipo ENUM
-                // Extraer los valores del ENUM (formato: enum('4','4+','5',...))
+                String enumValues = rs.getString("Type"); // Obté el tipus ENUM
+                // Extreure els valors de l'ENUM (format: enum('4','4+','5',...))
                 enumValues = enumValues.substring(enumValues.indexOf("(") + 1, enumValues.indexOf(")"));
-                String[] valores = enumValues.replace("'", "").split(",");
-                for (String valor : valores) {
-                    niveles.add(valor);
+                String[] valors = enumValues.replace("'", "").split(",");
+                for (String valor : valors) {
+                    nivells.add(valor);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error al obtener los niveles: " + e.getMessage());
+            System.out.println("Error al obtenir els nivells: " + e.getMessage());
         }
-        return niveles;
+        return nivells;
     }
 
-    // Mostrar un mensaje para modificar un escalador
+    // Mostrar un missatge per modificar un escalador
     public static Escalador mostrarModificarEscalador(Escalador escalador) {
         System.out.println("=== Modificar Escalador ===");
-        System.out.println("Deja en blanco para mantener el valor actual.");
+        System.out.println("Deixa en blanc per mantenir el valor actual.");
 
-        // Consumir el salto de línea pendiente
+        // Consumir el salt de línia pendent
         scanner.nextLine();
 
-        // Modificar el nombre
-        System.out.print("Nombre (" + escalador.getNom() + "): ");
+        // Modificar el nom
+        System.out.print("Nom (" + escalador.getNom() + "): ");
         String nom = scanner.nextLine();
         if (!nom.isEmpty()) {
             escalador.setNom(nom);
         }
 
-        // Modificar el alias
-        System.out.print("Alias (" + escalador.getAlias() + "): ");
+        // Modificar l'àlies
+        System.out.print("Àlies (" + escalador.getAlias() + "): ");
         String alias = scanner.nextLine();
         if (!alias.isEmpty()) {
             escalador.setAlias(alias);
         }
 
-        // Modificar la edad
-        System.out.print("Edad (" + escalador.getEdat() + "): ");
+        // Modificar l'edat
+        System.out.print("Edat (" + escalador.getEdat() + "): ");
         String edat = scanner.nextLine();
         if (!edat.isEmpty()) {
             escalador.setEdat(Integer.parseInt(edat));
         }
 
-        // Modificar el nivel máximo
-        List<String> niveles = obtenerNivelesDisponibles();
-        if (!niveles.isEmpty()) {
-            System.out.println("Selecciona el nivel máximo:");
-            for (int i = 0; i < niveles.size(); i++) {
-                System.out.println((i + 1) + ". " + niveles.get(i));
+        // Modificar el nivell màxim
+        List<String> nivells = obtenirNivellsDisponibles();
+        if (!nivells.isEmpty()) {
+            System.out.println("Selecciona el nivell màxim:");
+            for (int i = 0; i < nivells.size(); i++) {
+                System.out.println((i + 1) + ". " + nivells.get(i));
             }
-            System.out.print("Nivel Máximo (" + escalador.getNivellMax() + "): ");
-            String opcion = scanner.nextLine();
-            if (!opcion.isEmpty()) {
+            System.out.print("Nivell Màxim (" + escalador.getNivellMax() + "): ");
+            String opcio = scanner.nextLine();
+            if (!opcio.isEmpty()) {
                 try {
-                    int index = Integer.parseInt(opcion);
-                    if (index > 0 && index <= niveles.size()) {
-                        escalador.setNivellMax(niveles.get(index - 1));
+                    int index = Integer.parseInt(opcio);
+                    if (index > 0 && index <= nivells.size()) {
+                        escalador.setNivellMax(nivells.get(index - 1));
                     } else {
-                        System.out.println("Opción no válida. Nivel no modificado.");
+                        System.out.println("Opció no vàlida. Nivell no modificat.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Entrada no válida. Nivel no modificado.");
+                    System.out.println("Entrada no vàlida. Nivell no modificat.");
                 }
             }
         } else {
-            System.out.println("No hay niveles disponibles.");
+            System.out.println("No hi ha nivells disponibles.");
         }
 
-        // Modificar el ID de la vía máxima
-        System.out.print("ID de Vía Máxima (" + escalador.getViaMaxId() + "): ");
+        // Modificar l'ID de la via màxima
+        System.out.print("ID de la Via Màxima (" + escalador.getViaMaxId() + "): ");
         String viaMaxId = scanner.nextLine();
         if (!viaMaxId.isEmpty()) {
             escalador.setViaMaxId(Integer.parseInt(viaMaxId));
         }
 
-        // Modificar el estilo preferido
-        System.out.print("Estilo Preferido (" + escalador.getEstilPreferit() + "): ");
+        // Modificar l'estil preferit
+        System.out.print("Estil Preferit (" + escalador.getEstilPreferit() + "): ");
         String estilPreferit = scanner.nextLine();
         if (!estilPreferit.isEmpty()) {
             escalador.setEstilPreferit(estilPreferit);
         }
 
-        // Modificar el historial
+        // Modificar l'historial
         System.out.print("Historial (" + escalador.getHistorial() + "): ");
         String historial = scanner.nextLine();
         if (!historial.isEmpty()) {
@@ -160,36 +161,36 @@ public class EscaladorView {
         return escalador;
     }
 
-    // Mostrar un mensaje para eliminar un escalador
+    // Mostrar un missatge per eliminar un escalador
     public static int mostrarEliminarEscalador() {
-        System.out.println("=== Introducir ID de Escalador ===");
-        System.out.print("Introduce el ID del escalador: ");
+        System.out.println("=== Introduir ID de l'Escalador ===");
+        System.out.print("Introdueix l'ID de l'escalador: ");
         return scanner.nextInt();
     }
 
     // Mostrar un escalador
     public static void mostrarEscalador(Escalador escalador) {
         if (escalador != null) {
-            System.out.println("=== Información del Escalador ===");
+            System.out.println("=== Informació de l'Escalador ===");
             System.out.println("ID: " + escalador.getId());
-            System.out.println("Nombre: " + escalador.getNom());
-            System.out.println("Alias: " + escalador.getAlias());
-            System.out.println("Edad: " + escalador.getEdat());
-            System.out.println("Nivel Máximo: " + escalador.getNivellMax());
-            System.out.println("ID de Vía Máxima: " + escalador.getViaMaxId());
-            System.out.println("Estilo Preferido: " + escalador.getEstilPreferit());
+            System.out.println("Nom: " + escalador.getNom());
+            System.out.println("Àlies: " + escalador.getAlias());
+            System.out.println("Edat: " + escalador.getEdat());
+            System.out.println("Nivell Màxim: " + escalador.getNivellMax());
+            System.out.println("ID de la Via Màxima: " + escalador.getViaMaxId());
+            System.out.println("Estil Preferit: " + escalador.getEstilPreferit());
             System.out.println("Historial: " + escalador.getHistorial());
             System.out.println("Fita: " + escalador.getFita());
         } else {
-            System.out.println("Escalador no encontrado.");
+            System.out.println("Escalador no trobat.");
         }
     }
 
-    // Mostrar todos los escaladores
+    // Mostrar tots els escaladors
     public static void mostrarListarTodosLosEscaladores(List<Escalador> escaladors) {
-        System.out.println("=== Lista de Escaladores ===");
+        System.out.println("=== Llista d'Escaladors ===");
         if (escaladors.isEmpty()) {
-            System.out.println("No hay escaladores registrados.");
+            System.out.println("No hi ha escaladors registrats.");
         } else {
             for (Escalador escalador : escaladors) {
                 mostrarEscalador(escalador);

@@ -8,36 +8,36 @@ import java.util.Scanner;
 public class EscolaView {
     private static final Scanner scanner = new Scanner(System.in);
 
-    // Mostrar un mensaje para crear una Escola
+    // Mostrar un missatge per crear una Escola
     public static Escola mostrarCrearEscola() {
         Escola escola = new Escola();
         System.out.println("=== Crear Escola ===");
-        System.out.print("Nombre: ");
+        System.out.print("Nom: "); // Sol·licitar el nom de l'escola
         escola.setNom(scanner.nextLine());
-        System.out.print("Lloc (Población): ");
+        System.out.print("Lloc (Població): "); // Sol·licitar el lloc de l'escola
         escola.setLloc(scanner.nextLine());
-        System.out.print("Aproximación: ");
+        System.out.print("Aproximació: "); // Sol·licitar l'aproximació
         escola.setAproximacio(scanner.nextLine());
-        System.out.print("Número de Vías: ");
+        System.out.print("Número de Vies: "); // Sol·licitar el número de vies
         escola.setNumVies(scanner.nextInt());
-        scanner.nextLine(); // Consumir salto de línea
-        System.out.print("Popularidad (baixa, mitjana, alta): ");
+        scanner.nextLine(); // Consumir el salt de línia
+        System.out.print("Popularitat (baixa, mitjana, alta): "); // Sol·licitar la popularitat
         escola.setPopularitat(scanner.nextLine());
-        System.out.print("Restricciones: ");
+        System.out.print("Restriccions: "); // Sol·licitar les restriccions
         escola.setRestriccions(scanner.nextLine());
         return escola;
     }
 
-    // Mostrar un mensaje para modificar una Escola
+    // Mostrar un missatge per modificar una Escola
     public static Escola mostrarModificarEscola(Escola escola) {
         System.out.println("=== Modificar Escola ===");
-        System.out.println("Deja en blanco para mantener el valor actual.");
+        System.out.println("Deixa en blanc per mantenir el valor actual.");
 
-        // Consumir el salto de línea pendiente
+        // Consumir el salt de línia pendent
         scanner.nextLine();
 
-        // Modificar el nombre
-        System.out.print("Nombre (" + escola.getNom() + "): ");
+        // Modificar el nom
+        System.out.print("Nom (" + escola.getNom() + "): ");
         String nom = scanner.nextLine();
         if (!nom.isEmpty()) {
             escola.setNom(nom);
@@ -50,29 +50,29 @@ public class EscolaView {
             escola.setLloc(lloc);
         }
 
-        // Modificar la aproximación
-        System.out.print("Aproximación (" + escola.getAproximacio() + "): ");
+        // Modificar l'aproximació
+        System.out.print("Aproximació (" + escola.getAproximacio() + "): ");
         String aproximacio = scanner.nextLine();
         if (!aproximacio.isEmpty()) {
             escola.setAproximacio(aproximacio);
         }
 
-        // Modificar el número de vías
-        System.out.print("Número de Vías (" + escola.getNumVies() + "): ");
+        // Modificar el número de vies
+        System.out.print("Número de Vies (" + escola.getNumVies() + "): ");
         String numVies = scanner.nextLine();
         if (!numVies.isEmpty()) {
             escola.setNumVies(Integer.parseInt(numVies));
         }
 
-        // Modificar la popularidad
-        System.out.print("Popularidad (" + escola.getPopularitat() + "): ");
+        // Modificar la popularitat
+        System.out.print("Popularitat (" + escola.getPopularitat() + "): ");
         String popularitat = scanner.nextLine();
         if (!popularitat.isEmpty()) {
             escola.setPopularitat(popularitat);
         }
 
-        // Modificar las restricciones
-        System.out.print("Restricciones (" + escola.getRestriccions() + "): ");
+        // Modificar les restriccions
+        System.out.print("Restriccions (" + escola.getRestriccions() + "): ");
         String restriccions = scanner.nextLine();
         if (!restriccions.isEmpty()) {
             escola.setRestriccions(restriccions);
@@ -81,34 +81,34 @@ public class EscolaView {
         return escola;
     }
 
-    // Mostrar un mensaje para eliminar una Escola
+    // Mostrar un missatge per eliminar una Escola
     public static int mostrarEliminarEscola() {
-        System.out.println("=== Introducir ID de Escola ===");
-        System.out.print("Introduce el ID de la Escola: ");
+        System.out.println("=== Introduir ID de l'Escola ===");
+        System.out.print("Introdueix l'ID de l'Escola: "); // Sol·licitar l'ID de l'escola
         return scanner.nextInt();
     }
 
     // Mostrar una Escola
     public static void mostrarEscola(Escola escola) {
         if (escola != null) {
-            System.out.println("=== Información de la Escola ===");
+            System.out.println("=== Informació de l'Escola ===");
             System.out.println("ID: " + escola.getId());
-            System.out.println("Nombre: " + escola.getNom());
+            System.out.println("Nom: " + escola.getNom());
             System.out.println("Lloc: " + escola.getLloc());
-            System.out.println("Aproximación: " + escola.getAproximacio());
-            System.out.println("Número de Vías: " + escola.getNumVies());
-            System.out.println("Popularidad: " + escola.getPopularitat());
-            System.out.println("Restricciones: " + escola.getRestriccions());
+            System.out.println("Aproximació: " + escola.getAproximacio());
+            System.out.println("Número de Vies: " + escola.getNumVies());
+            System.out.println("Popularitat: " + escola.getPopularitat());
+            System.out.println("Restriccions: " + escola.getRestriccions());
         } else {
-            System.out.println("Escola no encontrada.");
+            System.out.println("Escola no trobada.");
         }
     }
 
-    // Mostrar todas las Escoles
+    // Mostrar totes les Escoles
     public static void mostrarListarTodosLosEscoles(List<Escola> escoles) {
-        System.out.println("=== Lista de Escoles ===");
+        System.out.println("=== Llista d'Escoles ===");
         if (escoles.isEmpty()) {
-            System.out.println("No hay Escoles registradas.");
+            System.out.println("No hi ha Escoles registrades.");
         } else {
             for (Escola escola : escoles) {
                 mostrarEscola(escola);

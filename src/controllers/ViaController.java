@@ -22,6 +22,7 @@ public class ViaController {
     }
 
     public static void crearVia(Via via) {
+        // Inserir una nova Via a la base de dades
         String sql = "INSERT INTO Vies (nom, dificultat, llargada, tipus, sector_id, escola_id) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             ModelController.ejecutarActualizacion(sql, via.getNom(), via.getDificultat(), via.getLlargada(),
@@ -52,6 +53,7 @@ public class ViaController {
     }
 
     public static void modificarVia(Via via) {
+        // Actualitzar una Via existent a la base de dades
         String sql = "UPDATE Vies SET nom = ?, dificultat = ?, llargada = ?, tipus = ?, sector_id = ? WHERE id = ?";
         try {
             ModelController.ejecutarActualizacion(sql, via.getNom(), via.getDificultat(), via.getLlargada(),
@@ -76,6 +78,7 @@ public class ViaController {
 
     // Llistar totes les Vies
     public static void llistarTotesViesController() {
+        // Obtenir totes les Vies de la base de dades
         String sql = "SELECT * FROM Vies";
         List<Via> vies = new ArrayList<>();
         try {
@@ -100,6 +103,7 @@ public class ViaController {
     }
 
     public static void eliminarVia(int id) {
+        // Eliminar una Via de la base de dades
         String sql = "DELETE FROM Vies WHERE id = ?";
         try {
             ModelController.ejecutarActualizacion(sql, id);
@@ -111,6 +115,7 @@ public class ViaController {
 
     // Obtenir una Via per ID
     private static Via obtenerViaPorId(int id) {
+        // Consultar una Via a la base de dades pel seu ID
         String sql = "SELECT * FROM Vies WHERE id = ?";
         try {
             ResultSet rs = ModelController.ejecutarConsulta(sql, id);
@@ -125,6 +130,7 @@ public class ViaController {
 
     // Mapar un ResultSet a un objecte Via
     private static Via mapearVia(ResultSet rs) throws SQLException {
+        // Crear un objecte Via a partir del ResultSet
         Via via = new Via();
         via.setId(rs.getInt("id"));
         via.setNom(rs.getString("nom"));

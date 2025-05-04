@@ -8,55 +8,58 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ModelController {
-    private static final String URL = "jdbc:mysql://localhost:3306/escalada_db";
+    private static final String URL = "jdbc:mysql://localhost:3306/escalada_db"; // URL de connexió a la base de dades
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
-    private static Connection connection; // Cambiar a estático
+    private static Connection connection; // Connexió compartida a la base de dades
 
+    // Obtenir una connexió a la base de dades
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    public static Connection conectar() throws SQLException { // Cambiar a estático
+    // Connectar a la base de dades
+    public static Connection conectar() throws SQLException {
         if (connection == null || connection.isClosed()) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
+                Class.forName("com.mysql.cj.jdbc.Driver"); // Carregar el controlador JDBC
             } catch (ClassNotFoundException e) {
-                throw new SQLException("No se pudo cargar el controlador JDBC", e);
+                throw new SQLException("No s'ha pogut carregar el controlador JDBC", e);
             }
-            String url = DatabaseConfig.getDatabaseUrl();
-            String user = DatabaseConfig.DB_USER;
-            String password = DatabaseConfig.DB_PASS;
-            connection = DriverManager.getConnection(url, user, password);
+            String url = DatabaseConfig.getDatabaseUrl(); // Obtenir la URL de connexió des de la configuració
+            String user = DatabaseConfig.DB_USER; // Obtenir l'usuari des de la configuració
+            String password = DatabaseConfig.DB_PASS; // Obtenir la contrasenya des de la configuració
+            connection = DriverManager.getConnection(url, user, password); // Establir la connexió
         }
         return connection;
     }
 
-    public static void cerrarConexion() throws SQLException { // Cambiar a estático
+    // Tancar la connexió a la base de dades
+    public static void cerrarConexion() throws SQLException {
         if (connection != null && !connection.isClosed()) {
-            connection.close();
-            System.out.println("Conexión cerrada con la base de datos.");
+            connection.close(); // Tancar la connexió
+            System.out.println("Connexió tancada amb la base de dades.");
         }
     }
 
-    // Método para ejecutar una actualización y devolver el ID generado
+    // Executar una actualització i retornar l'ID generat
     public static int ejecutarActualizacionConRetornId(String sql, Object... parametros) throws SQLException {
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            // Asignar los parámetros a la consulta
+            // Assignar els paràmetres a la consulta
             for (int i = 0; i < parametros.length; i++) {
                 stmt.setObject(i + 1, parametros[i]);
             }
 
-            // Ejecutar la consulta
+            // Executar la consulta
             stmt.executeUpdate();
 
-            // Obtener el ID generado automáticamente
+            // Obtenir l'ID generat automàticament
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1); // Retornar el ID generado
+                    return generatedKeys.getInt(1); // Retornar l'ID generat
                 } else {
                     throw new SQLException("No s'ha generat cap ID.");
                 }
@@ -64,36 +67,36 @@ public class ModelController {
         }
     }
 
-    // Método para ejecutar consultas SELECT
+    // Executar consultes SELECT
     public static ResultSet ejecutarConsulta(String sql, Object... parametros) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);
 
-        // Asignar los parámetros a la consulta
+        // Assignar els paràmetres a la consulta
         for (int i = 0; i < parametros.length; i++) {
             stmt.setObject(i + 1, parametros[i]);
         }
 
-        return stmt.executeQuery();
+        return stmt.executeQuery(); // Retornar el resultat de la consulta
     }
 
-    // Método para ejecutar una actualización sin retorno
+    // Executar una actualització sense retorn
     public static void ejecutarActualizacion(String sql, Object... parametros) throws SQLException {
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Asignar los parámetros a la consulta
+            // Assignar els paràmetres a la consulta
             for (int i = 0; i < parametros.length; i++) {
                 stmt.setObject(i + 1, parametros[i]);
             }
 
-            stmt.executeUpdate();
+            stmt.executeUpdate(); // Executar l'actualització
         }
     }
 
-    // Método para manejar excepciones de SQL
-    public static void manejarExcepcion(SQLException e) { // Cambiar a estático
-        System.err.println("Error SQL: " + e.getMessage());
-        e.printStackTrace();
+    // Gestionar excepcions SQL
+    public static void manejarExcepcion(SQLException e) {
+        System.err.println("Error SQL: " + e.getMessage()); // Mostrar el missatge d'error
+        e.printStackTrace(); // Mostrar la traça de l'error
     }
 }

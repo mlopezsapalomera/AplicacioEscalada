@@ -11,12 +11,12 @@ import java.util.List;
 public class EscaladorController {
     private static final ModelController modelController = new ModelController();
 
-    // Crear un nuevo escalador
+    // Crear un nou escalador
     public static void crearEscaladorController() {
-        // Llamar a la vista para obtener los datos del usuario
+        // Cridar a la vista per obtenir les dades de l'usuari
         Escalador escalador = EscaladorView.mostrarCrearEscalador();
         
-        // Llamar al método que interactúa con la base de datos
+        // Cridar al mètode que interactua amb la base de dades
         crearEscalador(escalador);
     }
 
@@ -26,27 +26,27 @@ public class EscaladorController {
             ModelController.ejecutarActualizacion(sql, escalador.getNom(), escalador.getAlias(), escalador.getEdat(),
                     escalador.getNivellMax(), escalador.getViaMaxId(), escalador.getEstilPreferit(),
                     escalador.getHistorial(), escalador.getFita());
-            System.out.println("Escalador creado correctamente.");
+            System.out.println("Escalador creat correctament.");
         } catch (SQLException e) {
             ModelController.manejarExcepcion(e);
         }
     }
 
-    // Modificar un escalador existente
+    // Modificar un escalador existent
     public static void modificarEscaladorController() {
-        // Solicitar el ID del escalador a modificar desde la vista
-        int id = EscaladorView.mostrarEliminarEscalador(); // Reutilizamos este método para pedir el ID
+        // Sol·licitar l'ID de l'escalador a modificar des de la vista
+        int id = EscaladorView.mostrarEliminarEscalador(); // Reutilitzem aquest mètode per demanar l'ID
 
-        // Buscar el escalador en la base de datos
+        // Buscar l'escalador a la base de dades
         Escalador escalador = llistarEscaladorController(id);
         if (escalador != null) {
-            // Solicitar los nuevos datos al usuario
+            // Sol·licitar les noves dades a l'usuari
             escalador = EscaladorView.mostrarModificarEscalador(escalador);
 
-            // Actualizar el escalador en la base de datos
+            // Actualitzar l'escalador a la base de dades
             modificarEscalador(escalador);
         } else {
-            System.out.println("Escalador no encontrado.");
+            System.out.println("Escalador no trobat.");
         }
     }
 
@@ -56,23 +56,23 @@ public class EscaladorController {
             ModelController.ejecutarActualizacion(sql, escalador.getNom(), escalador.getAlias(), escalador.getEdat(),
                     escalador.getNivellMax(), escalador.getViaMaxId(), escalador.getEstilPreferit(),
                     escalador.getHistorial(), escalador.getFita(), escalador.getId());
-            System.out.println("Escalador modificado correctamente.");
+            System.out.println("Escalador modificat correctament.");
         } catch (SQLException e) {
             ModelController.manejarExcepcion(e);
         }
     }
 
-    // Listar un escalador por ID
+    // Llistar un escalador per ID
     public static Escalador llistarEscaladorController(int id) {
         String sql = "SELECT * FROM Escaladors WHERE id = ?";
         try {
             ResultSet rs = ModelController.ejecutarConsulta(sql, id);
             if (rs.next()) {
                 Escalador escalador = mapearEscalador(rs);
-                EscaladorView.mostrarEscalador(escalador); // Mostrar el escalador en la vista
+                EscaladorView.mostrarEscalador(escalador); // Mostrar l'escalador a la vista
                 return escalador;
             } else {
-                System.out.println("Escalador no encontrado.");
+                System.out.println("Escalador no trobat.");
             }
         } catch (SQLException e) {
             ModelController.manejarExcepcion(e);
@@ -80,7 +80,7 @@ public class EscaladorController {
         return null;
     }
 
-    // Listar todos los escaladores
+    // Llistar tots els escaladors
     public static void llistarTotsEscaladorsController() {
         String sql = "SELECT * FROM Escaladors";
         List<Escalador> escaladors = new ArrayList<>();
@@ -89,25 +89,25 @@ public class EscaladorController {
             while (rs.next()) {
                 escaladors.add(mapearEscalador(rs));
             }
-            // Llamar a la vista para mostrar los escaladores
+            // Cridar a la vista per mostrar els escaladors
             EscaladorView.mostrarListarTodosLosEscaladores(escaladors);
         } catch (SQLException e) {
             ModelController.manejarExcepcion(e);
         }
     }
 
-    // Eliminar un escalador por ID
+    // Eliminar un escalador per ID
     public static void eliminarEscaladorController(int id) {
         String sql = "DELETE FROM Escaladors WHERE id = ?";
         try {
             ModelController.ejecutarActualizacion(sql, id);
-            System.out.println("Escalador eliminado correctamente.");
+            System.out.println("Escalador eliminat correctament.");
         } catch (SQLException e) {
             ModelController.manejarExcepcion(e);
         }
     }
 
-    // Mapear un ResultSet a un objeto Escalador
+    // Mapar un ResultSet a un objecte Escalador
     private static Escalador mapearEscalador(ResultSet rs) throws SQLException {
         Escalador escalador = new Escalador();
         escalador.setId(rs.getInt("id"));

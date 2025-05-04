@@ -5,10 +5,10 @@ public class Sector {
     private String nom;
     private int escolaId;
     private int numVies;
-    private String coordenades; // Nuevas coordenadas
-    private String aproximacio; // Nueva aproximación
-    private String popularitat; // Nueva popularidad
-    private String restriccions; // Nuevas restricciones
+    private String coordenades; 
+    private String aproximacio; 
+    private String popularitat; 
+    private String restriccions; 
 
     // Getters y Setters
     public int getId() {
