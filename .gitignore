@@ -1,0 +1,7 @@
+*.md
+.gitignore
+/out
+/.vscode
+/.idea
+/lib
+README.md
